@@ -1,3 +1,5 @@
+### General Utility Functions ###
+
 # Data Read: Reads the structured data from the given instance file
 # Input:  - filename: A string containing the file name with its relative path.
 # Output: - n: An Integer containing the number of tasks;
@@ -87,6 +89,27 @@ function args_read(args = ["Hahn", "1", "100"])
     return file, stations, population
 end
 
+### Genetic Algorithm Functions ###
+
+# TODO: Evaluate if this generated solution should already be factible
+# Rand Gene: Generates a random gene containing a solution for the problem
+# Input:  - s: An Integer representing the given number of stations available;
+#         - n: An Integer representing the number of tasks to be assigned.
+# Output: - gene: A (s,n) 2-dimensional Integer Array representing the sequence
+#                 of tasks n assigned to each station s.
+function rand_gene(s::Int64, n::Int64)
+    gene = zeros(Int64, (s,n))
+    task_counter = ones(Int64, s)
+    
+    for i = 1:n
+        rnds = rand(1:s)
+        gene[rnds, task_counter[rnds]] = i
+        task_counter[rnds] += 1
+    end
+    
+    return gene
+end
+
 ### Main Function ###
 function main()
     fname, m, pop = args_read(ARGS)
@@ -108,7 +131,7 @@ file3 = "instances/WEE-MAG.IN2"
 ns , ts, rs = data_read(file1)
 println(ns)
 println(ts)
-for i = 1:n
+for i = 1:ns
     println(i, rs[i,:])
 end
     
@@ -118,3 +141,8 @@ fs, ms, ps = args_read(["3"])
 println(fs)
 println(ms)
 println(ps)
+
+fs, ms, ps = args_read(["1", "2"])
+
+genes = rand_gene(ms, ns)
+println(genes)
