@@ -91,7 +91,8 @@ end
 
 ### Genetic Algorithm Functions ###
 
-# TODO: Evaluate if this generated solution should already be factible
+# TODO: Evaluate if this generated solution should already be feasible
+#       This changes not only generation but also crossover and mutation
 # Rand Gene: Generates a random gene containing a solution for the problem
 # Input:  - s: An Integer representing the given number of stations available;
 #         - n: An Integer representing the number of tasks to be assigned.
@@ -108,6 +109,32 @@ function rand_gene(s::Int64, n::Int64)
     end
     
     return gene
+end
+
+# TODO: If there are infeasible solution genes this should return -1
+#       Also, evaluate use of sum and dict to remove both fors
+# Fitness: Calculates the fitness of the given gene
+#          In SALBP, it's the longest cycle among all stations
+#          A cycle of a station is the sum the times of all the tasks given to it
+# Input:  - gene: A (s,n) 2-dimensional Integer Array representing a gene;
+#         - task_times: An (n) Array of Integers with each task's time.
+# Output: - max_cycle: An Integer representing the fitness of the given gene.
+function fitness(gene, task_times)
+    max_cycle = 0
+    
+    for i = 1:(size(gene)[1])
+        current_cycle = 0
+        for j = 1:(size(gene)[2])
+            if (gene[i, j] > 0)
+                current_cycle += task_times[gene[i, j]]
+            end
+        end
+        if (current_cycle > max_cycle)
+            max_cycle = current_cycle
+        end
+    end
+        
+    return max_cycle
 end
 
 ### Main Function ###
@@ -146,3 +173,17 @@ fs, ms, ps = args_read(["1", "2"])
 
 genes = rand_gene(ms, ns)
 println(genes)
+
+testfits = [0, 0]
+for i = 1:size(genes)[2]
+    if (genes[1, i] > 0)
+        testfits[1] += ts[genes[1, i]]
+    end
+    if (genes[2, i] > 0)
+        testfits[2] += ts[genes[2, i]]
+    end
+end
+println(testfits)
+
+fits = fitness(genes, ts)
+println(fits)
