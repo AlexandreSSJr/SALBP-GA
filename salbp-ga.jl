@@ -91,8 +91,6 @@ end
 
 ### Genetic Algorithm Functions ###
 
-# TODO: Evaluate if this generated solution should already be feasible
-#       This changes not only generation but also crossover and mutation
 # Rand Gene: Generates a random gene containing a solution for the problem
 # Input:  - s: An Integer representing the given number of stations available;
 #         - n: An Integer representing the number of tasks to be assigned.
@@ -111,8 +109,16 @@ function rand_gene(s::Int64, n::Int64)
     return gene
 end
 
-# TODO: If there are infeasible solution genes this should return -1
-#       Also, evaluate use of sum and dict to remove both fors
+# Crossover: Creates a new Gene by doing a crossover between two existing ones
+# Input:  - gene1: A (s,n) 2-dimensional Integer Array representing the first gene
+#           gene2: A (s,n) 2-dimensional Integer Array representing the second gene
+# Output: - new_gene: A (s,n) 2-dimensional Integer Array representing the new gene
+function crossover(gene1, gene2)
+    #TODO
+    return gene1
+end
+
+# TODO: Evaluate use of sum and dict to remove both fors
 # Fitness: Calculates the fitness of the given gene
 #          In SALBP, it's the longest cycle among all stations
 #          A cycle of a station is the sum the times of all the tasks given to it
@@ -169,6 +175,8 @@ println(fs)
 println(ms)
 println(ps)
 
+genes0 = rand_gene(ms, ns)
+
 fs, ms, ps = args_read(["1", "2"])
 
 genes = rand_gene(ms, ns)
@@ -187,3 +195,6 @@ println(testfits)
 
 fits = fitness(genes, ts)
 println(fits)
+
+new_genes = crossover(genes0, genes)
+println(new_genes)
