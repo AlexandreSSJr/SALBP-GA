@@ -1,4 +1,4 @@
-# Simple Assembly Line Balancing Problem - Type 2
+# Simple Assembly Line Balancing Problem
 #
 # The problem consists of finding an assignment of tasks
 # to an arrengement of linear stations where these tasks
@@ -37,13 +37,13 @@ var X {j in STATIONS, i in TASKS}, binary;
 minimize cycle_time: c;
 
 # Constraint to allow a Task to be assigned only once in the solution
-s.t. assigned_once {i in TASKS}: sum{j in STATIONS} x[j][i] = 1;
+s.t. assigned_once {i in TASKS}: sum{j in STATIONS} X[j,i] = 1;
 
 # Constraint to assure the precedence relations are respected
 s.t. respect_precedences {i in TASKS, p in TASKS, s in STATIONS: precedences[i,p] = 1}: X[s,p] <= sum{j in STATIONS: j <= s} X[j,i];
 
 # Sets the final cycle to the maximum sum of times among stations
-s.t. set_cycle {j in STATIONS}: sum{i in TASKS} times[i] * x[j][i] <= c;
+s.t. set_cycle {j in STATIONS}: sum{i in TASKS} times[i] * X[j,i] <= c;
 
 solve;
 
