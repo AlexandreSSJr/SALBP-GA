@@ -14,11 +14,11 @@
 #             Int. Trans. Oper. Res., 2015.
 
 # The set of Tasks
-param n
+param n;
 set TASKS := 1..n;
 
 # The set of Stations
-param m
+param m;
 set STATIONS:= 1..m;
 
 # Each task's execution time
