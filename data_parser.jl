@@ -6,7 +6,7 @@
 #         - tasks_times: An (n) Array of Integers with each task's time;
 #         - prec_relations: A (n,n) 2-dimensional Binary Array representing
 #                           each task's Precedence Relation.
-function data_read(filename::String)
+function parser_data_read(filename::String)
     # Gets every line in the instance file for processing
     lines = []
     open(filename,"r") do f
@@ -86,7 +86,7 @@ function main()
     out_file = ["instances/HAHN.DAT", "instances/LUTZ3.DAT", "instances/WEE-MAG.DAT"]
     
     for i = 1:(length(filename))
-        n, task_times, prec_relations = data_read(filename[i])
+        n, task_times, prec_relations = parser_data_read(filename[i])
         parser_write(out_file[i], n, s, task_times, prec_relations)
     end
     
