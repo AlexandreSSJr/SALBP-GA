@@ -47,6 +47,6 @@ s.t. set_cycle {j in STATIONS}: sum{i in TASKS} times[i] * X[j,i] <= c;
 
 solve;
 
-display_obj;
+display cycle_time;
 
 end;
