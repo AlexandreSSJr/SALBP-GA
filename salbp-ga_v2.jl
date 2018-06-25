@@ -157,10 +157,27 @@ end
 #         - s, n, task_times: Needed from fitness function.
 # Output: - new_individual: A new [fitness, gene] individual.
 function crossover(s, n, parent1, parent2, task_times)
-    #gene1 = parent1[2]
-    #gene2 = parent2[2]
+    gene1 = parent1[2]
+    gene2 = parent2[2]
     
-    return parent1
+    new_gene = gene1
+    rnd = rand(1:2)
+    
+    if (rnd == 1)
+        for i = 1:(s-1)
+            new_gene[i] = min(new_gene[i], gene2[i])
+        end
+    else
+        for i = 1:(s-1)
+            it = s - i
+            new_gene[it] = max(new_gene[it], gene2[it])
+        end
+    end
+    
+    fit = fitness(s, n, new_gene, task_times)
+    new_individual = [fit, new_gene]
+    
+    return new_individual
 end
 
 # Fitness: Calculates the fitness of the given gene
